@@ -1,7 +1,26 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import GUI from "lil-gui";
-
+import sunImageUrl from "./sun.jpg";
+import mercuryImageUrl from "./mercury.jpg";
+import venusImageUrl from "./venus.jpg";
+import earthImageUrl from "./earth.jpg";
+import lunaImageUrl from "./luna.jpg";
+import marsImageUrl from "./mars.jpg";
+import fobosImageUrl from "./fobos.jpg";
+import deimosImageUrl from "./deimos.jpg";
+import jupiterImageUrl from "./jupiter.jpg";
+import ioImageUrl from "./io.jpg";
+import ganemidImageUrl from "./ganemid.jpg";
+import callistoImageUrl from "./callisto.jpg";
+import saturnImageUrl from "./saturn.jpg";
+import enceladusImageUrl from "./enceladus.jpg";
+import titanImageUrl from "./titan.jpg";
+import lapetusImageUrl from "./lapetus.jpg";
+import uranusImageUrl from "./uranus.jpg";
+import titaniaImageUrl from "./titania.jpg";
+import neptuneImageUrl from "./neptune.jpg";
+import tritonImageUrl from "./triton.jpg";
 
 const gui = new GUI("Point of view");
 
@@ -34,6 +53,29 @@ let renderer;
 let t0;
 let accglobal = 0.001;
 let timestamp;
+
+// Textures
+
+const suntxt = new THREE.TextureLoader().load(sunImageUrl);
+const earthtxt = new THREE.TextureLoader().load(earthImageUrl);
+const mercurytxt = new THREE.TextureLoader().load(mercuryImageUrl);
+const venustxt = new THREE.TextureLoader().load(venusImageUrl);
+const lunatxt = new THREE.TextureLoader().load(lunaImageUrl);
+const marstxt = new THREE.TextureLoader().load(marsImageUrl);
+const fobostxt = new THREE.TextureLoader().load(fobosImageUrl);
+const deimostxt = new THREE.TextureLoader().load(deimosImageUrl);
+const jupitertxt = new THREE.TextureLoader().load(jupiterImageUrl);
+const iotxt = new THREE.TextureLoader().load(ioImageUrl);
+const ganemidtxt = new THREE.TextureLoader().load(ganemidImageUrl);
+const callistotxt = new THREE.TextureLoader().load(callistoImageUrl);
+const saturntxt = new THREE.TextureLoader().load(saturnImageUrl);
+const enceladustxt = new THREE.TextureLoader().load(enceladusImageUrl);
+const titantxt = new THREE.TextureLoader().load(titanImageUrl);
+const lapetustxt = new THREE.TextureLoader().load(lapetusImageUrl);
+const uranustxt = new THREE.TextureLoader().load(uranusImageUrl);
+const titaniatxt = new THREE.TextureLoader().load(titaniaImageUrl);
+const neptunetxt = new THREE.TextureLoader().load(neptuneImageUrl);
+const tritontxt = new THREE.TextureLoader().load(tritonImageUrl);
 
 // Planets
 
@@ -86,32 +128,32 @@ function init() {
     t0 = Date.now();
     
     // bodies: radius, rotationSpeed, orbitalSpeed distance, focus, f1, f2, angle, color
-    sun = createSun(20, 0xffff00);
-    mercury = createSatellite(2, 0.01, 1.5, 40, sun, 1, 1.205, 0.122, 0xdab578);
-    venus = createSatellite(2.6, 0.01, 1, 80, sun, 1, 1.007, 0.059, 0xaf5c50);
-    earth = createSatellite(3, 0.01, 0.8, 150, sun, 1, 1.017, 0, 0x0000ff);
-    luna =  createSatellite(1.5, 0.01, 1, 20, earth, 1, 1.0549, 0.0898, 0xdddddd);
-    mars = createSatellite(2.4, 0.01, 0.5, 250, sun, 1, 1.099, 0.032, 0xb66055);
-    fobos = createSatellite(0.7, 0.01, 1, 15, mars, 1, 1.0151, 0.0190, 0xdddddd);
-    deimos = createSatellite(0.5, 0.01, 0.5, 30, mars, 1, 1.0003, 0.0162, 0xdddddd);
+    sun = createSun(20, suntxt);
+    mercury = createSatellite(2, 0.01, 1.5, 40, sun, 1, 1.205, 0.122, mercurytxt);
+    venus = createSatellite(2.6, 0.01, 1, 80, sun, 1, 1.007, 0.059, venustxt);
+    earth = createSatellite(3, 0.01, 0.8, 150, sun, 1, 1.017, 0, earthtxt);
+      luna =  createSatellite(1.5, 0.01, 1, 20, earth, 1, 1.0549, 0.0898, lunatxt);
+    mars = createSatellite(2.4, 0.01, 0.5, 250, sun, 1, 1.099, 0.032, marstxt);
+      fobos = createSatellite(0.7, 0.01, 1, 15, mars, 1, 1.0151, 0.0190, fobostxt);
+      deimos = createSatellite(0.5, 0.01, 0.5, 30, mars, 1, 1.0003, 0.0162, deimostxt);
     
     // Asteroid belt
     for(let i=0; i<100; i++) {
       createAsteroid(0.5 + Math.random()*2, 300 + 20 * Math.random(), 0.2 + 0.01 * Math.random(), Math.random() * Math.PI * 2, sun);
     }
     
-    jupiter = createSatellite(13, 0.01, 0.4, 400, sun, 1, 1.049, 0.023, 0xe29e41);
-      io = createSatellite(1, 0.01, 0.8, 30, jupiter, 1, 1.0013, 0.00087, 0x96C77D);
-      ganemid = createSatellite(2.2, 0.01, 0.3, 50, jupiter, 1, 1.0013, 0.0314, 0x96C77D);
-      callisto = createSatellite(1.8, 0.01, 0.05, 80, jupiter, 1, 1.0013, 0.0335, 0xEDF2D5);
-    saturn = createSatellite(10, 0.01, 0.2, 600, sun, 1, 1.057, 0.044, 0xbedcd5c);
-      enceladus = createSatellite(0.5, 0.01, 0.8, 30, saturn, 1, 1.0013, 0.00087, 0x96C77D);
-      titan = createSatellite(2, 0.01, 0.3, 50, saturn, 1, 1.0013, 0.0314, 0x96C77D);
-      lapetus = createSatellite(1.5, 0.01, 0.05, 80, saturn, 1, 1.0013, 0.0335, 0xEDF2D5);
-    uranus = createSatellite(7, 0.01, 0.1, 800, sun, 1, 1.046, 0.014, 0xb7dd0f6);
-      titania = createSatellite(2, 0.01, 0.3, 50, uranus, 1, 1.0013, 0.0314, 0x96C77D);
-    neptune = createSatellite(7, 0.01, 0.05, 1000, sun, 1, 1.011, 0.031, 0x5b60dc);
-      triton = createSatellite(1.5, 0.01, 0.3, 50, neptune, 1, 1.0013, 0.0314, 0x96C77D);
+    jupiter = createSatellite(13, 0.01, 0.4, 400, sun, 1, 1.049, 0.023, jupitertxt);
+      io = createSatellite(1, 0.01, 0.8, 30, jupiter, 1, 1.0013, 0.00087, iotxt);
+      ganemid = createSatellite(2.2, 0.01, 0.3, 50, jupiter, 1, 1.0013, 0.0314, ganemidtxt);
+      callisto = createSatellite(1.8, 0.01, 0.05, 80, jupiter, 1, 1.0013, 0.0335, callistotxt);
+    saturn = createSatellite(10, 0.01, 0.2, 600, sun, 1, 1.057, 0.044, saturntxt);
+      enceladus = createSatellite(0.5, 0.01, 0.8, 30, saturn, 1, 1.0013, 0.00087, enceladustxt);
+      titan = createSatellite(2, 0.01, 0.3, 50, saturn, 1, 1.0013, 0.0314, titantxt);
+      lapetus = createSatellite(1.5, 0.01, 0.05, 80, saturn, 1, 1.0013, 0.0335, lapetustxt);
+    uranus = createSatellite(7, 0.01, 0.1, 800, sun, 1, 1.046, 0.014, uranustxt);
+      titania = createSatellite(2, 0.01, 0.3, 50, uranus, 1, 1.0013, 0.0314, titaniatxt);
+    neptune = createSatellite(7, 0.01, 0.05, 1000, sun, 1, 1.011, 0.031, neptunetxt);
+      triton = createSatellite(1.5, 0.01, 0.3, 50, neptune, 1, 1.0013, 0.0314, tritontxt);
 
     // Kuiper belt
     for(let i=0; i<500; i++) {
@@ -171,7 +213,6 @@ function animate() {
     requestAnimationFrame(animate);
 
     for (let object of satellites) {
-      console.log(object);
       object.position.x =
         Math.sin(timestamp * object.userData.orbitSpeed) * object.userData.distance * object.userData.f1;
       object.position.z =
@@ -227,21 +268,27 @@ function createAsteroid(radius, distance, orbitSpeed, initialPosition, focus) {
     return object;
 }
 
-function createSun(radius, color) {
+function createSun(radius, texture=undefined) {
     let geometry = new THREE.SphereGeometry(radius, 20, 20);
-    let material = new THREE.MeshBasicMaterial({ color: color });
+    let material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    if (texture) {
+        material.map = texture;
+    }
     let object = new THREE.Mesh(geometry, material);
     scene.add(object);
     return object;
   }
 
-function createSatellite(radius, rotationSpeed, orbitSpeed, distance, focus, f1, f2, angle, color, orbit=true) {
+function createSatellite(radius, rotationSpeed, orbitSpeed, distance, focus, f1, f2, angle, texture=undefined, orbit=true) {
     var pivote = new THREE.Object3D();
     pivote.rotation.x = angle;
     focus.add(pivote);
 
     let geometry = new THREE.SphereGeometry(radius, 20, 20);
-    let material = new THREE.MeshBasicMaterial({ color: color });
+    let material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    if (texture) {
+        material.map = texture;
+    }
     let object = new THREE.Mesh(geometry, material);
 
     pivote.add(object);
