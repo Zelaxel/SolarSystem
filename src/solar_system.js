@@ -1,10 +1,25 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import GUI from "lil-gui";
+
+
+const gui = new GUI("Point of view");
+
+const cameraActions = {
+  sun: () => { trackedObject = sun},
+  mercury: () => { trackedObject = mercury},
+  venus: () => { trackedObject = venus},
+  earth: () => { trackedObject = earth},
+  mars: () => { trackedObject = mars},
+  jupiter: () => { trackedObject = jupiter},
+  saturn: () => { trackedObject = saturn},
+  uranus: () => { trackedObject = uranus},
+  neptune: () => { trackedObject = neptune}
+};
 
 let scene;
 let camera;
 let renderer;
-let speed;
 let t0;
 let accglobal = 0.001;
 let timestamp;
@@ -15,7 +30,7 @@ let satellites = []
 let asteroids = []
 let camcontrols;
 let sun;
-let Mercury;
+let mercury;
 let venus;
 let earth;
 let mars;
@@ -30,7 +45,7 @@ let ganemid;
 let calisto;
 let io;
 
-let traked;
+let trackedObject;
 let currentPos;
 let previousPos;
 
@@ -52,12 +67,11 @@ function init() {
 
     camcontrols = new OrbitControls(camera, renderer.domElement);
 
-    speed = 0.1;
     t0 = Date.now();
     
     // bodies: radius, rotationSpeed, orbitalSpeed distance, focus, f1, f2, angle, color
     sun = createSun(20, 0xffff00);
-    Mercury = createSatellite(2, 0.01, 1.5, 40, sun, 1, 1.205, 0.122, 0xdab578);
+    mercury = createSatellite(2, 0.01, 1.5, 40, sun, 1, 1.205, 0.122, 0xdab578);
     venus = createSatellite(2.6, 0.01, 1, 80, sun, 1, 1.007, 0.059, 0xaf5c50);
     earth = createSatellite(3, 0.01, 0.8, 150, sun, 1, 1.017, 0, 0x0000ff);
     luna =  createSatellite(1.5, 0.01, 1, 20, earth, 1, 1.0549, 0.0898, 0xdddddd);
@@ -94,11 +108,24 @@ function init() {
 
     window.addEventListener('resize', onWindowResize, false);
 
-    traked = earth;
+    trackedObject = earth;
     currentPos = new THREE.Vector3();
     previousPos = new THREE.Vector3();
 
     const delta = new THREE.Vector3().subVectors(currentPos, previousPos);
+
+    // GUI
+    const focusFolder = gui.addFolder('Follow planet');
+
+    focusFolder.add(cameraActions, 'sun').name('Sun');
+    focusFolder.add(cameraActions, 'mercury').name('Mercury');
+    focusFolder.add(cameraActions, 'venus').name('Venus');
+    focusFolder.add(cameraActions, 'earth').name('Earth');
+    focusFolder.add(cameraActions, 'mars').name('Mars');
+    focusFolder.add(cameraActions, 'jupiter').name('Jupiter');
+    focusFolder.add(cameraActions, 'saturn').name('Saturn');
+    focusFolder.add(cameraActions, 'uranus').name('Uranus');
+    focusFolder.add(cameraActions, 'neptune').name('Neptune');
 }
 
 function animate() {
@@ -108,18 +135,18 @@ function animate() {
     for (let object of satellites) {
       console.log(object);
       object.position.x =
-        Math.sin(timestamp * object.userData.orbitSpeed * speed) * object.userData.distance * object.userData.f1;
+        Math.sin(timestamp * object.userData.orbitSpeed) * object.userData.distance * object.userData.f1;
       object.position.z =
-        Math.cos(timestamp * object.userData.orbitSpeed * speed) * object.userData.distance * object.userData.f2;
+        Math.cos(timestamp * object.userData.orbitSpeed) * object.userData.distance * object.userData.f2;
         object.rotation.y += object.userData.rotationSpeed;
       }
       
       for (let object of asteroids) {
-        object.position.x = Math.sin(timestamp * object.userData.orbitSpeed  * speed + object.userData.initialPosition) * object.userData.distance
-        object.position.z = Math.cos(timestamp * object.userData.orbitSpeed  * speed + object.userData.initialPosition) * object.userData.distance
+        object.position.x = Math.sin(timestamp * object.userData.orbitSpeed + object.userData.initialPosition) * object.userData.distance
+        object.position.z = Math.cos(timestamp * object.userData.orbitSpeed + object.userData.initialPosition) * object.userData.distance
       }
       
-      traked.getWorldPosition(currentPos);
+      trackedObject.getWorldPosition(currentPos);
       const delta = new THREE.Vector3().subVectors(currentPos, previousPos);
       camera.position.add(delta);
       camcontrols.target.add(delta);
