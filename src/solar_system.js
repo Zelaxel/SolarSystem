@@ -78,6 +78,7 @@ const uranustxt = new THREE.TextureLoader().load(uranusImageUrl);
 const titaniatxt = new THREE.TextureLoader().load(titaniaImageUrl);
 const neptunetxt = new THREE.TextureLoader().load(neptuneImageUrl);
 const tritontxt = new THREE.TextureLoader().load(tritonImageUrl);
+const seristxt = new THREE.TextureLoader().load(serisImageUrl);
 
 // Planets
 
@@ -216,6 +217,7 @@ function init() {
     focusMoonFolder.add(cameraActions, 'lapetus').name('Lapetus');
     focusMoonFolder.add(cameraActions, 'titania').name('Titania');
     focusMoonFolder.add(cameraActions, 'triton').name('Triton');
+    focusMoonFolder.add(cameraActions, 'seris').name('Seris');
 }
 
 function animate() {
