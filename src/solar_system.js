@@ -21,6 +21,7 @@ import uranusImageUrl from "./uranus.jpg";
 import titaniaImageUrl from "./titania.jpg";
 import neptuneImageUrl from "./neptune.jpg";
 import tritonImageUrl from "./triton.jpg";
+import serisImageUrl from "./seris.jpg";
 
 const gui = new GUI("Point of view");
 
@@ -45,6 +46,7 @@ const cameraActions = {
   lapetus: () => { trackedObject = lapetus},
   titania: () => { trackedObject = titania},
   triton: () => { trackedObject = triton},
+  seris: () => { trackedObject = seris}
 };
 
 let scene;
@@ -102,6 +104,7 @@ let enceladus;
 let lapetus;
 let titania;
 let triton;
+let seris
 
 let trackedObject;
 let currentPos;
@@ -142,6 +145,7 @@ function init() {
     mars = createSatellite(2.4, 0.01, 0.5, 250, sun, 1, 1.099, 0.032, marstxt);
       fobos = createSatellite(0.7, 0.01, 1, 15, mars, 1, 1.0151, 0.0190, fobostxt);
       deimos = createSatellite(0.5, 0.01, 0.5, 30, mars, 1, 1.0003, 0.0162, deimostxt);
+    seris = createSatellite(2.4, 0.01, 0.5, 310, sun, 1, 1.099, 0.032, seristxt);
     
     // Asteroid belt
     for(let i=0; i<100; i++) {
