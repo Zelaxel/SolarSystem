@@ -126,6 +126,12 @@ function init() {
     camcontrols = new OrbitControls(camera, renderer.domElement);
 
     t0 = Date.now();
+
+    // ligth
+    const Lpunt = new THREE.PointLight(0xffffff, 1, 0, 0.1);
+    Lpunt.position.set(0, 0, 0);
+    Lpunt.castShadow = true;
+    scene.add(Lpunt);
     
     // bodies: radius, rotationSpeed, orbitalSpeed distance, focus, f1, f2, angle, color
     sun = createSun(20, suntxt);
@@ -254,7 +260,7 @@ function createAsteroid(radius, distance, orbitSpeed, initialPosition, focus) {
     focus.add(pivote);
 
     let geometry = new THREE.SphereGeometry(radius, 2, 2);
-    let material = new THREE.MeshBasicMaterial({ color: 0xa3a3a3 });
+    let material = new THREE.MeshPhongMaterial({ color: 0xa3a3a3 });
     let object = new THREE.Mesh(geometry, material);
 
     pivote.add(object);
@@ -285,7 +291,7 @@ function createSatellite(radius, rotationSpeed, orbitSpeed, distance, focus, f1,
     focus.add(pivote);
 
     let geometry = new THREE.SphereGeometry(radius, 20, 20);
-    let material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    let material = new THREE.MeshPhongMaterial({ color: 0xffffff });
     if (texture) {
         material.map = texture;
     }
