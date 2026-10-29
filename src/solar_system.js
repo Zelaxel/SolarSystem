@@ -6,7 +6,7 @@ import GUI from "lil-gui";
 const gui = new GUI("Point of view");
 
 const cameraActions = {
-  sun: () => { trackedObject = sun},
+  sun: () => { trackedObject = sun;},
   mercury: () => { trackedObject = mercury},
   venus: () => { trackedObject = venus},
   earth: () => { trackedObject = earth},
@@ -14,7 +14,18 @@ const cameraActions = {
   jupiter: () => { trackedObject = jupiter},
   saturn: () => { trackedObject = saturn},
   uranus: () => { trackedObject = uranus},
-  neptune: () => { trackedObject = neptune}
+  neptune: () => { trackedObject = neptune},
+  luna: () => { trackedObject = luna},
+  fobos: () => { trackedObject = fobos},
+  deimos: () => { trackedObject = deimos},
+  io: () => { trackedObject = io},
+  ganemid: () => { trackedObject = ganemid},
+  callisto: () => { trackedObject = callisto},
+  enceladus: () => { trackedObject = enceladus},
+  titan: () => { trackedObject = titan},
+  lapetus: () => { trackedObject = lapetus},
+  titania: () => { trackedObject = titania},
+  triton: () => { trackedObject = triton},
 };
 
 let scene;
@@ -42,8 +53,13 @@ let luna;
 let fobos;
 let deimos;
 let ganemid;
-let calisto;
+let callisto;
 let io;
+let titan;
+let enceladus;
+let lapetus;
+let titania;
+let triton;
 
 let trackedObject;
 let currentPos;
@@ -87,10 +103,15 @@ function init() {
     jupiter = createSatellite(13, 0.01, 0.4, 400, sun, 1, 1.049, 0.023, 0xe29e41);
       io = createSatellite(1, 0.01, 0.8, 30, jupiter, 1, 1.0013, 0.00087, 0x96C77D);
       ganemid = createSatellite(2.2, 0.01, 0.3, 50, jupiter, 1, 1.0013, 0.0314, 0x96C77D);
-      calisto = createSatellite(1.8, 0.01, 0.05, 80, jupiter, 1, 1.0013, 0.0335, 0xEDF2D5);
+      callisto = createSatellite(1.8, 0.01, 0.05, 80, jupiter, 1, 1.0013, 0.0335, 0xEDF2D5);
     saturn = createSatellite(10, 0.01, 0.2, 600, sun, 1, 1.057, 0.044, 0xbedcd5c);
+      enceladus = createSatellite(0.5, 0.01, 0.8, 30, saturn, 1, 1.0013, 0.00087, 0x96C77D);
+      titan = createSatellite(2, 0.01, 0.3, 50, saturn, 1, 1.0013, 0.0314, 0x96C77D);
+      lapetus = createSatellite(1.5, 0.01, 0.05, 80, saturn, 1, 1.0013, 0.0335, 0xEDF2D5);
     uranus = createSatellite(7, 0.01, 0.1, 800, sun, 1, 1.046, 0.014, 0xb7dd0f6);
+      titania = createSatellite(2, 0.01, 0.3, 50, uranus, 1, 1.0013, 0.0314, 0x96C77D);
     neptune = createSatellite(7, 0.01, 0.05, 1000, sun, 1, 1.011, 0.031, 0x5b60dc);
+      triton = createSatellite(1.5, 0.01, 0.3, 50, neptune, 1, 1.0013, 0.0314, 0x96C77D);
 
     // Kuiper belt
     for(let i=0; i<500; i++) {
@@ -107,25 +128,42 @@ function init() {
     }
 
     window.addEventListener('resize', onWindowResize, false);
+    
+    // Set track.
 
-    trackedObject = earth;
+    trackedObject = sun;
     currentPos = new THREE.Vector3();
     previousPos = new THREE.Vector3();
 
     const delta = new THREE.Vector3().subVectors(currentPos, previousPos);
 
     // GUI
-    const focusFolder = gui.addFolder('Follow planet');
+    const focusSunFolder = gui.addFolder('Follow sun');
+    const focusPlanetFolder = gui.addFolder('Follow planet');
+    const focusMoonFolder = gui.addFolder('Follow moon');
 
-    focusFolder.add(cameraActions, 'sun').name('Sun');
-    focusFolder.add(cameraActions, 'mercury').name('Mercury');
-    focusFolder.add(cameraActions, 'venus').name('Venus');
-    focusFolder.add(cameraActions, 'earth').name('Earth');
-    focusFolder.add(cameraActions, 'mars').name('Mars');
-    focusFolder.add(cameraActions, 'jupiter').name('Jupiter');
-    focusFolder.add(cameraActions, 'saturn').name('Saturn');
-    focusFolder.add(cameraActions, 'uranus').name('Uranus');
-    focusFolder.add(cameraActions, 'neptune').name('Neptune');
+    focusSunFolder.add(cameraActions, 'sun').name('Sun');
+
+    focusPlanetFolder.add(cameraActions, 'mercury').name('Mercury');
+    focusPlanetFolder.add(cameraActions, 'venus').name('Venus');
+    focusPlanetFolder.add(cameraActions, 'earth').name('Earth');
+    focusPlanetFolder.add(cameraActions, 'mars').name('Mars');
+    focusPlanetFolder.add(cameraActions, 'jupiter').name('Jupiter');
+    focusPlanetFolder.add(cameraActions, 'saturn').name('Saturn');
+    focusPlanetFolder.add(cameraActions, 'uranus').name('Uranus');
+    focusPlanetFolder.add(cameraActions, 'neptune').name('Neptune');
+
+    focusMoonFolder.add(cameraActions, 'luna').name('Luna');
+    focusMoonFolder.add(cameraActions, 'fobos').name('Fobos');
+    focusMoonFolder.add(cameraActions, 'deimos').name('Deimos');
+    focusMoonFolder.add(cameraActions, 'io').name('Io');
+    focusMoonFolder.add(cameraActions, 'ganemid').name('Ganemid');
+    focusMoonFolder.add(cameraActions, 'callisto').name('Callisto');
+    focusMoonFolder.add(cameraActions, 'enceladus').name('Enceladus');
+    focusMoonFolder.add(cameraActions, 'titan').name('Titan');
+    focusMoonFolder.add(cameraActions, 'lapetus').name('Lapetus');
+    focusMoonFolder.add(cameraActions, 'titania').name('Titania');
+    focusMoonFolder.add(cameraActions, 'triton').name('Triton');
 }
 
 function animate() {
