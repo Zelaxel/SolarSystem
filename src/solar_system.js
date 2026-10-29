@@ -205,6 +205,7 @@ function init() {
     focusPlanetFolder.add(cameraActions, 'saturn').name('Saturn');
     focusPlanetFolder.add(cameraActions, 'uranus').name('Uranus');
     focusPlanetFolder.add(cameraActions, 'neptune').name('Neptune');
+    focusPlanetFolder.add(cameraActions, 'seris').name('Seris');
 
     focusMoonFolder.add(cameraActions, 'luna').name('Luna');
     focusMoonFolder.add(cameraActions, 'fobos').name('Fobos');
@@ -217,7 +218,6 @@ function init() {
     focusMoonFolder.add(cameraActions, 'lapetus').name('Lapetus');
     focusMoonFolder.add(cameraActions, 'titania').name('Titania');
     focusMoonFolder.add(cameraActions, 'triton').name('Triton');
-    focusMoonFolder.add(cameraActions, 'seris').name('Seris');
 }
 
 function animate() {
