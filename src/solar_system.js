@@ -21,7 +21,7 @@ import uranusImageUrl from "./uranus.jpg";
 import titaniaImageUrl from "./titania.jpg";
 import neptuneImageUrl from "./neptune.jpg";
 import tritonImageUrl from "./triton.jpg";
-import serisImageUrl from "./seris.jpg";
+import ceresImageUrl from "./ceres.jpg";
 
 const gui = new GUI("Point of view");
 
@@ -46,7 +46,7 @@ const cameraActions = {
   lapetus: () => { trackedObject = lapetus},
   titania: () => { trackedObject = titania},
   triton: () => { trackedObject = triton},
-  seris: () => { trackedObject = seris}
+  ceres: () => { trackedObject = ceres}
 };
 
 let scene;
@@ -78,7 +78,7 @@ const uranustxt = new THREE.TextureLoader().load(uranusImageUrl);
 const titaniatxt = new THREE.TextureLoader().load(titaniaImageUrl);
 const neptunetxt = new THREE.TextureLoader().load(neptuneImageUrl);
 const tritontxt = new THREE.TextureLoader().load(tritonImageUrl);
-const seristxt = new THREE.TextureLoader().load(serisImageUrl);
+const cerestxt = new THREE.TextureLoader().load(ceresImageUrl);
 
 // Planets
 
@@ -105,7 +105,7 @@ let enceladus;
 let lapetus;
 let titania;
 let triton;
-let seris
+let ceres
 
 let trackedObject;
 let currentPos;
@@ -146,7 +146,7 @@ function init() {
     mars = createSatellite(2.4, 0.01, 0.5, 250, sun, 1, 1.099, 0.032, marstxt);
       fobos = createSatellite(0.7, 0.01, 1, 15, mars, 1, 1.0151, 0.0190, fobostxt);
       deimos = createSatellite(0.5, 0.01, 0.5, 30, mars, 1, 1.0003, 0.0162, deimostxt);
-    seris = createSatellite(2.4, 0.01, 0.5, 310, sun, 1, 1.099, 0.032, seristxt);
+    ceres = createSatellite(2.4, 0.01, 0.5, 310, sun, 1, 1.099, 0.032, cerestxt);
     
     // Asteroid belt
     for(let i=0; i<100; i++) {
@@ -205,7 +205,7 @@ function init() {
     focusPlanetFolder.add(cameraActions, 'saturn').name('Saturn');
     focusPlanetFolder.add(cameraActions, 'uranus').name('Uranus');
     focusPlanetFolder.add(cameraActions, 'neptune').name('Neptune');
-    focusPlanetFolder.add(cameraActions, 'seris').name('Seris');
+    focusPlanetFolder.add(cameraActions, 'ceres').name('Ceres');
 
     focusMoonFolder.add(cameraActions, 'luna').name('Luna');
     focusMoonFolder.add(cameraActions, 'fobos').name('Fobos');
